@@ -1,0 +1,44 @@
+stu> db.products.find()
+[
+  {
+    _id: ObjectId('67935784447a319ce2cb0ce2'),
+    name: 'Item A',
+    price: 50
+  },
+  {
+    _id: ObjectId('67935784447a319ce2cb0ce3'),
+    name: 'Item B',
+    price: 75
+  },
+  {
+    _id: ObjectId('67935784447a319ce2cb0ce4'),
+    name: 'Item C',
+    price: 100
+  },
+  {
+    _id: ObjectId('67935784447a319ce2cb0ce5'),
+    name: 'Item D',
+    price: 150
+  },
+  {
+    _id: ObjectId('67935784447a319ce2cb0ce6'),
+    name: 'Item E',
+    price: 200
+  }
+]
+stu> db.products.find({},{name : 1})
+[
+  { _id: ObjectId('67935784447a319ce2cb0ce2'), name: 'Item A' },
+  { _id: ObjectId('67935784447a319ce2cb0ce3'), name: 'Item B' },
+  { _id: ObjectId('67935784447a319ce2cb0ce4'), name: 'Item C' },
+  { _id: ObjectId('67935784447a319ce2cb0ce5'), name: 'Item D' },
+  { _id: ObjectId('67935784447a319ce2cb0ce6'), name: 'Item E' }
+]
+stu> db.products.find({},{price : 1})
+[
+  { _id: ObjectId('67935784447a319ce2cb0ce2'), price: 50 },
+  { _id: ObjectId('67935784447a319ce2cb0ce3'), price: 75 },
+  { _id: ObjectId('67935784447a319ce2cb0ce4'), price: 100 },
+  { _id: ObjectId('67935784447a319ce2cb0ce5'), price: 150 },
+  { _id: ObjectId('67935784447a319ce2cb0ce6'), price: 200 }
+]

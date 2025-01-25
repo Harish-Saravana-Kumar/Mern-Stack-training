@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> MONGODB CRUD </title>
+    </head>
+    <body>
+        <h1>welcome to mongodb connections.</h1>
+         <ul>
+            {{!-- // .toArray() iterations. --}}
+            {{#each datas}} 
+            <li>{{this.empid}} {{this.empname}}<a href="/?edit_idd={{this._id}}">Edit</a>
+            <a href="/?delete_idd={{this._id}}" onclick = "return confirm('Are you sure to delete the data?')"> Delete </a></li>
+            {{/each}}
+        </ul>
+        <p>{{msg}}</p>
+
+        {{#if edit_id}}
+        <h3>Edit Form </h3>
+        <form action="/updateinfo/{{edit_id}}" method="post">
+            <label>emp id : </label>
+            <input type="text" name = "eid" value = "{{edit_emp.empid}}"> <br/>
+            <label>emp name : </label>
+            <input type="text" name="ename" value = "{{edit_emp.empname}}"><br/>
+            <input type="submit">
+        </form> <br/> <br/>
+        <br/> <br/>
+        {{else}}
+        <h3>Create Form </h3>
+        <form action="/empinfo" method="post">
+            <label>emp id : </label>
+            <input type="text" name = "eid"> <br/>
+            <label>emp name : </label>
+            <input type="text" name="ename"><br/>
+            <input type="submit">
+        </form> <br/> <br/>
+        <br/> <br/>
+        {{/if}}
+    </body>
+</html>

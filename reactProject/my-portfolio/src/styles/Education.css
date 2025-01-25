@@ -1,0 +1,71 @@
+.education-section {
+  padding: var(--section-padding);
+  background-color: #f8f9fa;
+}
+
+.education-section > * {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.education-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.education-card h3 {
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+.education-card h4 {
+  color: var(--text-color);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.education-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.certifications, .achievements {
+  margin-top: 3rem;
+}
+
+.certifications h3, .achievements h3 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.certifications ul, .achievements ul {
+  list-style-type: none;
+}
+
+.certifications li, .achievements li {
+  margin-bottom: 0.8rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.certifications li:before, .achievements li:before {
+  content: "•";
+  color: var(--secondary-color);
+  position: absolute;
+  left: 0;
+}
+
+@media (max-width: 768px) {
+  .education-card {
+    padding: 1.5rem;
+  }
+  
+  .education-details {
+    grid-template-columns: 1fr;
+  }
+}

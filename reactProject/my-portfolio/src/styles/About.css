@@ -1,0 +1,47 @@
+.about-section {
+  padding: var(--section-padding);
+  background-color: #fff;
+}
+
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.about-text {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.contact-info {
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 10px;
+  margin-top: 2rem;
+}
+
+.contact-info p {
+  margin-bottom: 1rem;
+}
+
+.contact-info strong {
+  color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+  .about-text p {
+    font-size: 1rem;
+  }
+  
+  .contact-info {
+    padding: 1.5rem;
+  }
+}
