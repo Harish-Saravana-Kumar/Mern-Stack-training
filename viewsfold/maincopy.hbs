@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {{#if edit_id}}
+    <h3>Edit Form</h3>
+    <form action="/updateInfo/{{edit_id}}" method="post">
+        <label>Student id :</label>
+        <input type="text" name = "sid" value ="{{edit_stu.stuId}}"><br/>
+        <label>Student name :</label>
+        <input type="text" name = "sname" value = "{{edit_stu.stuName}}"><br/>
+        <input type = "submit">
+    </form>
+    {{else}}
+    <h3>Create Form</h3>
+    <form action="/stuInfo" method="post">
+        <label>Student id :</label>
+        <input type="text" name = "sid"><br/>
+        <label>Student name :</label>
+        <input type="text" name = "sname"><br/>
+        <input type = "submit">
+    </form>
+    {{/if}}
+    <h1>datas.....</h1>
+    <ul>
+        {{#each datas}}
+        <li>{{this.stuName}} {{this.stuId}}
+            <a href="/?edit_idd={{this._id}}">Edit</a>
+            <a href="/?delete_idd={{this._id}}" onclick="return confirm('Are you sure to delete ?')">Delete</a>
+        </li>
+        {{/each}}
+    </ul>
+    <p>{{msg}}</p>
+</body>
+</html>
