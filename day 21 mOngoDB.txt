@@ -1,0 +1,230 @@
+show dbs
+
+use db_name
+
+db.collection_name.insertOne()
+
+ctrl+L // clears everything.
+
+db.Students.findOne()
+
+// find will return cursor object. in cursor object we have (toArray() & forEach()).
+
+db.Students.find().toArray()// it will fetch 1000 of datas, will give simply.
+
+db.Students.find().forEach((d)=>print('the data',d))// it will fetch 1000 of datas, using iterations it will give one by one.
+
+db.Students.find({'details.salary' : 1000000}) // search in nested document.
+
+db.Students.updateOne({roll:41},{$set:{"details.salary":1200000}})
+
+db.Students.updateMany({name:'Luffy'},{$set:{Fruit:"Human-Human",Dream:"King of the Pirates"}})
+
+db.Students.insertOne({name:"Gowtham S L",roll : 41,age : 20,details : {salary:1200000,role :  'Mern Stack DevOps'}})
+
+db.Students.updateOne({name:'Gowtham S L',roll:1,details:{$exists:true}},{$set:{"details.salary":20000}}) //update uniquely method 1
+
+db.Students.updateOne({ _id: ObjectId('679070fbe4e2085ae6cb0ce3')},{$set:{"details.role":'Developer',"details.salary":100000}})//method 2
+
+db.Students.deleteMany({ _id: ObjectId('679075c3e4e2085ae6cb0ce5')})
+
+// project shortcuts
+
+installing requirements.
+
+npm i --s express express-handlebars body-parser
+npm i -g nodemon
+
+======================================================
+// notes for 1st cmd
+1) Express:
+ 	purpose : 
+		Express is a fast , minimalist web framework for node js . It provides tools to build web applications and APIs.
+ 	Usage :
+		To handle HTTP requests and responses.
+		To create routes for different endpoints (e.g., GET, POST, PUT, DELETE).
+		To integrate middleware for processing requests.
+===================================================================================================================================
+2)express-handlebars :
+	Purpose : 
+		This package is an Express.js template engine for rendering dynamic HTML pages using handlebars syntax.
+	Usage :
+		To serve dynamic content by combining HTML templates with JavaScript data.
+		To create reusable components like headers ,footers ,etc .., using Handlebars partials.
+===================================================================================================================================
+3) body-parser
+	Purpose:
+		Body-parser is middleware that parses incoming
+===================================================================================================================================
+//notes for nodemon
+	to change/modify some data ,for impact we need to restart.
+	to avoid restarting manually , we use nodemon.
+
+===================================================================
+ create app.js
+
+create a empty folder with whatever name in after creating packages.
+
+under folder
+create 
+ maincopy.js(layout name)
+
+under app
+	import required headers
+
+	const express = require('express')
+	const exhbs = require('express-handlebars')
+
+	const app = express();
+
+1) configure url - step 1
+	app.engine('hbs',
+	exhbs.engine({
+   	 layoutsDir: 'viewsfold/',
+   	 defaultLayout : 'maincopy',
+    	extname : 'hbs'
+	})
+	);
+
+2) setting up the engine - step 2
+	app.set('view engine', 'hbs'); //view engine - default name , hbs - engine name
+	app.set('views','viewsfold'); // views - default name , viewsfold - folder , can be added more..
+
+3) setting the routes 
+	//routes , providing msg to the end user is called (response) and sending is called (request).
+	app.get('/',(req,res)=>{
+    	const msg = 'test';
+    	res.render('maincopy',{msg});
+	});
+
+4) // start the server with msg
+	app.listen(8000,()=>{
+    	console.log('Listening on port 	8000....');
+	});
+5) // to run the server
+	nodemon app.js
+
+6) to create db info , install mongodb driver
+	npm i mongodb
+
+========================================================================
+to write html code , we write the code in file under folder we created
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MONGODB CRUD</title>
+    </head>
+    <body>
+        <h1>welcome to mongodb connections.</h1>
+        <ul>
+            {{#each datas}} // .toArray() iterations.
+            <li>{{this.empid}} {{this.empname}}</li>
+            {{/each}}
+        </ul>
+    </body>
+</html>
+==========================================================================
+after installing mongodb
+npm i mongodb
+
+we write the db connectivity and crud operation in this file
+
+const mongodb = require('mongodb');
+const mongoClient = mongodb.MongoClient;
+
+let db;
+
+async function getdb()
+{
+    const client = await mongoClient.connect('mongodb://127.0.0.1:27017'); // common address should remember.
+    db = client.db('fmdb');
+    if(db)
+    {
+        console.log('DataBase Connected Sucessfully...');
+    }
+    else
+    {
+        console.log('DataBase Connection failed!!!...');
+    }
+    return db;
+}
+
+module.exports = {getdb}
+==================================================================================
+
+part-2 app.js
+const express = require('express')
+const exhbs = require('express-handlebars')
+// const bodyParser = require('body-parser')
+const app = express();
+const dbo = require('./db')
+
+app.engine('hbs', // hbs - engine name
+exhbs.engine({
+    layoutsDir: 'viewsfold/',
+    defaultLayout : 'maincopy',
+    extname : 'hbs'
+})
+);
+
+app.set('view engine', 'hbs'); //view engine - default name , hbs - engine name
+app.set('views','viewsfold'); // views - default name , viewsfold - folder , can be added more..
+
+//routes
+app.get('/',async (req,res)=>{
+    let database = await dbo.getdb(); // function ensures connectivity
+    const collection = database.collection('emp'); // creating collection (i.e.,name)
+    // await collection.insertOne({name:'Harish S',roll:47}) // if we perform any operation db is created in our mongoshell
+    const cursor = collection.find({}); // retrieve all datas using cursor object
+    let datas = await cursor.toArray(); // using functions in cursor object (i.e.,.toArray() || .forEach())
+     let msg = '';
+    if(req.query.status==='1'){
+            msg = 'Inserted Successfully';
+        }
+    console.log('the data', datas); // printing data
+    res.render('maincopy',{msg,datas});
+
+});
+
+// start the server with msg
+app.listen(8000,()=>{
+    console.log('Listening on port 8000....');
+});
+
+
+===============================================================================================================================
+
+
+creating a form in .hbs 
+part2 - maincopy.hbs
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MONGODB CRUD</title>
+    </head>
+    <body>
+        <h1>welcome to mongodb connections.</h1>
+         <ul>
+            {{!-- // .toArray() iterations. --}}
+            {{#each datas}} 
+            <li>{{this.empid}} {{this.empname}}</li>
+            {{/each}}
+        </ul>
+        <p>{{msg}}</p>
+        <h3>Form 1</h3>
+        <form action="/empinfo" method="post">
+            <label>emp id : </label>
+            <input type="text" name = "eid"> <br/>
+            <label>emp name : </label>
+            <input type="text" name="ename"><br/>
+            <input type="submit">
+        </form> <br/> <br/>
+        <br/> <br/>
+    </body>
+</html>
+============================================================
+
+
+
